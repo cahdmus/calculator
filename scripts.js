@@ -1,6 +1,6 @@
 
 const screen = document.querySelector('#screen');
-const equalBtn = document.querySelector('#equalBtn');
+const btns = document.querySelectorAll('.btn');
 
 function operate(num1, operator, num2) {
     if (operator == "+") {
@@ -16,4 +16,10 @@ function operate(num1, operator, num2) {
     }
 }
 
-console.log(operate(1, "*", 3))
+// console.log(operate(1, "*", 3))
+
+btns.forEach(btn => {
+    btn.addEventListener('click', e => {
+        console.log(btn.id);
+    })
+})

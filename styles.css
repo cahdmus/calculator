@@ -102,11 +102,12 @@ a:hover {
     color: #582F0E;
 }
 
-#clearBtn {
+#clear {
     background-color: #936639;
     width: 70px;
     height: 40px;
     padding: 5px;
+    margin: 0;
     border-radius: 15px 0 0 15px;
     display: flex;
     align-items: center;
@@ -118,7 +119,7 @@ a:hover {
     box-shadow: inset -20px 0px 20px -20px #333d2934;
 }
 
-#clearBtn:hover {
+#clear:hover {
     color: #414833;
     text-decoration: dashed underline;
 }
