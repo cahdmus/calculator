@@ -10,6 +10,7 @@
 
 body {
     background-image: url(images/wov.jpg);
+    background-color: #E1E5CA;
     height: 100vh;
     width: 100vw;
     overflow-y: hidden;
