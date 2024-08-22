@@ -103,13 +103,13 @@ a:hover {
     color: #582F0E;
 }
 
+#backspace,
 #clear {
     background-color: #936639;
-    width: 70px;
+    width: fit-content;
     height: 40px;
     padding: 5px;
     margin: 0;
-    border-radius: 15px 0 0 15px;
     display: flex;
     align-items: center;
     justify-content: end;
@@ -120,7 +120,18 @@ a:hover {
     box-shadow: inset -20px 0px 20px -20px #333d2934;
 }
 
+#backspace:hover,
 #clear:hover {
     color: #414833;
     text-decoration: dashed underline;
+}
+
+#backspace {
+    border-radius: 0 15px 15px 0;
+    padding-right: 10px;
+}
+
+#clear {
+    border-radius: 15px 0 0 15px;
+    padding-left: 10px;
 }
