@@ -1,4 +1,5 @@
-const screen = document.querySelector('#screen');
+const inputScreen = document.querySelector('#inputScreen');
+const operationScreen = document.querySelector('#operationScreen');
 const btns = document.querySelectorAll('.btn');
 
 function checkComma(arr) {
@@ -9,15 +10,40 @@ function checkComma(arr) {
     return result.includes(true);
 }
 
+// Makes sure the result is not too long for the screen
 function resultSize(result) {
     if (result.length <= 10) {
         return true;
     }
 }
 
+function isInfinite(result) {
+    if (result == Infinity) {
+        return true;
+    }
+}
+
+function isResultValid(result) {
+    if (isInfinite(result) === true) {
+        inputScreen.textContent = "No.";
+        operationScreen.textContent = '';
+    } else if (resultSize(result) === true) {
+        inputScreen.textContent = displayValue;
+        args.push("=");
+        operationScreen.textContent = args.join(" ");
+    } else {
+        inputScreen.textContent = "Too hard !";
+        operationScreen.textContent = '';
+    }
+}
+
 function operate(num1, operator, num2) {
     function roundNumber(num) {
         return num.toFixed(2).replace(/\.?0+$/, "")
+    }
+
+    if (num2 === "---") {
+        num2 = 0;
     }
 
     num1 = parseFloat(num1);
@@ -44,10 +70,12 @@ function operate(num1, operator, num2) {
 let displayValue;
 let input = [];
 let args = [];
-let result;
+let calcResult;
 
 function getInput() {
     document.addEventListener('keydown', e => {
+        console.log(args);
+
         switch (e.key) {
             case '0':
             case '1':
@@ -61,14 +89,14 @@ function getInput() {
             case '9':
                 input.push(e.key);
                 displayValue = input.join("");
-                screen.textContent = displayValue;
+                inputScreen.textContent = displayValue;
                 break;
             case '.':
             case ',':
                 if (checkComma(input) === false) {
                     input.push(e.key);
                     displayValue = input.join("");
-                    screen.textContent = displayValue;
+                    inputScreen.textContent = displayValue;
                 }
                 break;
 
@@ -77,46 +105,50 @@ function getInput() {
             case '-':
             case '+':
                 input = [];
-                if (args[1] === undefined) {
-                    args.push(displayValue);
-                    args.push(e.key);
+
+                args.push(displayValue);
+                args.push(e.key);
+
+                if (args.length >= 3) {
+                    calcResult = operate.apply(this, args);
+                    args.splice(0, 3, calcResult);
+                    inputScreen.textContent = "0";
                 } else {
-                    args.splice(1, 1, e.key);
+                    inputScreen.textContent = displayValue;
                 }
-                displayValue = "---";
-                screen.textContent = displayValue;
-                console.log(args);
+
+                operationScreen.textContent = args.join(" ");
                 break;
 
             case 'Enter':
                 input = [];
                 args.push(displayValue);
                 displayValue = operate.apply(this, args);
-                if (resultSize(displayValue) === true) {
-                    screen.textContent = displayValue;
-                } else {
-                    screen.textContent = "Too hard !";
-                }
+                isResultValid(displayValue);
                 args = [];
+                console.log(args);
                 break;
 
             case 'Delete':
                 input = [];
                 displayValue = "cleared";
-                screen.textContent = displayValue;
+                inputScreen.textContent = displayValue;
+                operationScreen.textContent = "";
                 args = [];
                 break;
 
             case 'Backspace':
                 input.pop();
                 displayValue = input.join("");
-                screen.textContent = displayValue;
+                inputScreen.textContent = displayValue;
                 break;
         }
     })
 
     btns.forEach(btn => {
         btn.addEventListener('click', e => {
+            console.log(args);
+
             switch (btn.className) {
                 case 'btn num':
                     switch (btn.id) {
@@ -157,45 +189,61 @@ function getInput() {
                             break;
                     }
                     displayValue = input.join("");
-                    screen.textContent = displayValue;
+                    inputScreen.textContent = displayValue;
                     break;
 
                 case 'btn operator':
                     input = [];
-                    if (args[1] === undefined) {
-                        args.push(displayValue);
-                        args.push(btn.id);
-                    } else {
-                        args.splice(1, 1, btn.id);
+
+                    switch (btn.id) {
+                        case 'divide':
+                            btn.id = '/'
+                            break;
+                        case 'multiply':
+                            btn.id = "*";
+                            break;
+                        case 'add':
+                            btn.id = "+";
+                            break;
+                        case 'subtract':
+                            btn.id = "-";
+                            break;
                     }
-                    displayValue = "---";
-                    screen.textContent = displayValue;
-                    console.log(args);
+
+                    args.push(displayValue);
+                    args.push(btn.id);
+
+                    if (args.length >= 3) {
+                        calcResult = operate.apply(this, args);
+                        args.splice(0, 3, calcResult);
+                        inputScreen.textContent = "0";
+                    } else {
+                        inputScreen.textContent = displayValue;
+                    }
+
+                    operationScreen.textContent = args.join(" ");
                     break;
 
                 case 'btn equals':
                     input = [];
                     args.push(displayValue);
                     displayValue = operate.apply(this, args);
-                    if (resultSize(displayValue) === true) {
-                        screen.textContent = displayValue;
-                    } else {
-                        screen.textContent = "Too hard !";
-                    }
+                    isResultValid(displayValue);
                     args = [];
                     break;
 
                 case 'btn clear':
                     input = [];
                     displayValue = "cleared";
-                    screen.textContent = displayValue;
+                    inputScreen.textContent = displayValue;
+                    operationScreen.textContent = "";
                     args = [];
                     break;
 
                 case 'btn backspace':
                     input.pop();
                     displayValue = input.join("");
-                    screen.textContent = displayValue;
+                    inputScreen.textContent = displayValue;
                     break;
             }
         })

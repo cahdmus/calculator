@@ -35,15 +35,15 @@ body {
     background-color: #FEFAE0;
     height: 85px;
     margin: 25px;
-    padding: 20px;
-    overflow: hidden;
+    /* overflow: hidden; */
     border-radius: 20px;
     box-shadow: inset 0 0 10px #2836184d;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     color: #414833;
-    font-size: 55px;
+    font-size: 50px;
 }
 
 #pad {
@@ -134,4 +134,24 @@ a:hover {
 #clear {
     border-radius: 15px 0 0 15px;
     padding-left: 10px;
+}
+
+#operationScreen {
+    font-size: 18px;
+    color: #936639;
+    align-self: flex-start;
+    line-height: 15px;
+    padding-left: 8px;
+}
+
+#inputScreen {
+    line-height: 1em;
+    align-self: flex-end;
+    padding-right: 10px;
+}
+
+#operationScreen,
+#inputScreen {
+    /* border: red solid 1px; */
+    /* width: 100%; */
 }
