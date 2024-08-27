@@ -151,9 +151,3 @@ a:hover {
     align-self: flex-end;
     padding-right: 10px;
 }
-
-#operationScreen,
-#inputScreen {
-    /* border: red solid 1px; */
-    /* width: 100%; */
-}
