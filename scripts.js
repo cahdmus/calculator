@@ -23,6 +23,12 @@ function isInfinite(result) {
     }
 }
 
+function isOperationValid(arr) {
+    if (arr.length >= 1) {
+        return true;
+    }
+}
+
 function isResultValid(result) {
     if (isInfinite(result) === true) {
         inputScreen.textContent = "No.";
@@ -122,11 +128,12 @@ function getInput() {
 
             case 'Enter':
                 input = [];
-                args.push(displayValue);
-                displayValue = operate.apply(this, args);
-                isResultValid(displayValue);
-                args = [];
-                console.log(args);
+                if (isOperationValid(args) === true) {
+                    args.push(displayValue);
+                    displayValue = operate.apply(this, args);
+                    isResultValid(displayValue);
+                    args = [];
+                }
                 break;
 
             case 'Delete':
@@ -226,10 +233,12 @@ function getInput() {
 
                 case 'btn equals':
                     input = [];
-                    args.push(displayValue);
-                    displayValue = operate.apply(this, args);
-                    isResultValid(displayValue);
-                    args = [];
+                    if (isOperationValid(args) === true) {
+                        args.push(displayValue);
+                        displayValue = operate.apply(this, args);
+                        isResultValid(displayValue);
+                        args = [];
+                    }
                     break;
 
                 case 'btn clear':
